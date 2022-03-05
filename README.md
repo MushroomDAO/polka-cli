@@ -3,7 +3,8 @@
 Easy P2P Uncensorable File Sharing
 
 
-[Join our Discord]([https://discord.gg/syn9cpq9JB])
+### Join our Discord 
+https://discord.gg/syn9cpq9JB
 
 ## Setup
 
