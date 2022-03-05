@@ -12,14 +12,6 @@ exports.describe = "Starts seeding the polka directory";
 exports.builder = {
 };
 
-const folderExists = () => {
-  if (fs.existsSync(DEFAULT_PATH)) {
-    return true
-  } else {
-    return false
-  }
-}
-
 const listenForChanges = () => {
   const watcher = chokidar.watch(DEFAULT_PATH, {ignored: /^\./, persistent: true});
 
@@ -32,17 +24,6 @@ const listenForChanges = () => {
 
 
 exports.handler = async function(argv) {
-  const hasDefaultFolder = folderExists()
-
-  if (!hasDefaultFolder) {
-    console.log('Creating Polka folder on your desktop')
-    console.log("Anything you add to this folder will then be sharable with the p2p network")
-    console.log("People you share it with can then host it and share it with others, making it uncensorable")
-
-    fs.mkdirSync(DEFAULT_PATH);
-    fs.mkdirSync(DRAFTS_PATH);
-  }
-
   // listenForChanges()
   openSeedingFolder()
 
