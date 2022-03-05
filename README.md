@@ -38,7 +38,10 @@ Some ideas:
 * Mobile app (app store, but also open source)
 * Decentralized P2P Pub Sub
 * Desktop app
+* Posts, comments, etc
+* P2P Applications
 * P2P specific optimizations. It's a very under explored space
+* What do you think would be cool?
 
 ## License
 Do what you want
