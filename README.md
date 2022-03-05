@@ -2,8 +2,6 @@
 
 Easy P2P Uncensorable File Sharing
 
-Dedicated to the Freedom Protestors and Truckers worldwide 🇨🇦
-
 ## Setup
 
 ```bash
@@ -39,7 +37,7 @@ I want to make a fully P2P social network / browser / file sharer. I'm still fig
 Some ideas:
 
 - Mobile app (app store, but also open source)
-- Decentralized P2P Pub Sub
+- Decentralized P2P PubSub
 - Desktop app
 - Posts, comments, etc
 - P2P Applications
