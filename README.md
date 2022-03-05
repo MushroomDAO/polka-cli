@@ -25,7 +25,7 @@ For list of all available commands please run from your command line:
 $ polka
 
 Commands:	
-  polka seed      				Starts seeding the `polka` folder on your desktop
+  polka seed      			Starts seeding the `polka` folder on your desktop
   polka read <frequency>     View the file at that hash
 ```
 
