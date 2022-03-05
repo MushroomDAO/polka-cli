@@ -15,40 +15,73 @@ exports.handler = async function(argv) {
   
   console.log(`[Reading] ${frequency} Frequency`)
 
-  const file = await ipfs.get(frequency)
+  await ipfs.get(frequency, async (freq, type) => {
+    if (type === 'txt' || type === 'json') {
+      printFile(frequency, type)
+    } else {
+      openFile(frequency, type)
+    }
+  
+    const {save} = await inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'save',
+        message: 'Would you like to save this and also help share it with more people?',
+        choices: ['Yes', 'No', 'Maybe'],
+      },
+    ])
+    
+    if (save === 'No') {
+      deleteDraftsFile(frequency, type)
+      process.exit(0);
+    }
+  
+    if (save === 'Maybe') {
+      console.log('We have decided for you')
+    }
+  
+    // console.log('Saving and seeding file for others')
+    await seedDraftsFile(frequency, type)
+    process.exit(0);
+  })
+
+  
 
   // process.exit(0)
   // console.log('Data', file)
-  // const isBinary = await getFileType(file)
+  // getFileType(file, (type) => {
+  //   console.log('type', type)
+  // })
   // console.log("is binary", isBinary)
 
 
   // openFile(file)
-  // if (isBinary) {
-  // } else {
-  //   printFile(file)
+  // // if (isBinary) {
+  // // } else {
+  // //   printFile(file)
+  // // }
+
+  // const {save} = await inquirer
+  // .prompt([
+  //   {
+  //     type: 'list',
+  //     name: 'save',
+  //     message: 'Would you like to save this and also help share it with more people?',
+  //     choices: ['Yes', 'No', 'Maybe'],
+  //   },
+  // ])
+  
+  // if (save === 'No') {
+  //   deleteDraftsFile(file)
   // }
 
-  const {save} = await inquirer
-  .prompt([
-    {
-      type: 'list',
-      name: 'save',
-      message: 'Would you like to save this and also help share it with more people?',
-      choices: ['Yes', 'No', 'Maybe'],
-    },
-  ])
-  
-  if (save === 'No') {
-    deleteDraftsFile(file)
-  }
+  // if (save === 'Maybe') {
+  //   console.log('We have decided for you')
+  // }
 
-  if (save === 'Maybe') {
-    console.log('We have decided for you')
-  }
-
-  // console.log('Saving and seeding file for others')
-  await seedDraftsFile(frequency)
-  process.exit(0);
+  // // console.log('Saving and seeding file for others')
+  // await seedDraftsFile(frequency)
+  // process.exit(0);
 };
 

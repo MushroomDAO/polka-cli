@@ -1,21 +1,16 @@
 const fs = require('fs')
 const moveFile = require('@npmcli/move-file');
-const {fromBuffer} = require('file-type')
-// const {readChunk} = require('read-chunk')
-
-// var Magic = require('mmmagic').Magic;
-const { isText, isBinary, getEncoding } = require('istextorbinary')
-
-// const magic = new Magic();
-
+var mmm = require('mmmagic'),
+Magic = mmm.Magic;
+var mime = require('mime-types')
+var magic = new Magic(mmm.MAGIC_MIME_TYPE);
 
 const HOME_DIR = require('os').homedir();
 const DEFAULT_PATH = `${HOME_DIR}/Desktop/polka-seeding`
 const DRAFTS_PATH = `${DEFAULT_PATH}/.drafts`
 
-
-const deleteDraftsFile = (filename) => {
-  const path = `${DRAFTS_PATH}/${filename}`
+const deleteDraftsFile = (filename, type) => {
+  const path = getPath(filename, type)
   console.log("Deleting File @ Path -> ", path)
   try {
     fs.unlinkSync(path)
@@ -24,9 +19,9 @@ const deleteDraftsFile = (filename) => {
   }
 }
 
-const seedDraftsFile = async(filename) => {
-  const path = `${DRAFTS_PATH}/${filename}`
-  const toPath = `${DEFAULT_PATH}/${filename}`
+const seedDraftsFile = async(filename, type) => {
+  const path = getPath(filename, type)
+  const toPath = `${DEFAULT_PATH}/${filename}.${type}`
   console.log("Saving and seeding file for others")
   try {
     await moveFile(path, toPath)
@@ -35,24 +30,37 @@ const seedDraftsFile = async(filename) => {
   }
 }
 
+const getFileType = async (filename, type, cb) => {
+  const path = getPath(filename, type)
 
-
-const getFileType = async (filename) => {
-  // const path = `${DRAFTS_PATH}/${filename}`
-
-  const fileType = fromBuffer(filename)
-  console.log("ENCODING", fileType)
-  return fileType
+  magic.detectFile(path, (err, mimeType) => {
+    console.log('TYPE', mimeType)
+    if (err) return null
+    const ext = mime.extension(mimeType)
+    console.log("EXTENSION??", ext)
+    cb (ext)
+  });
 }
 
-const printFile = (filename) => {
-  const path = `${DRAFTS_PATH}/${filename}`
+const getFileTypeFromBuffer = async (buf, cb) => {
+  magic.detect(buf, (err, mimeType) => {
+    if (err) return null    
+    const ext = mime.extension(mimeType) 
+    cb(ext)
+  })
+}
+
+const printFile = (filename, type) => {
+  const path = getPath(filename, type)
   const data = fs.readFileSync(path)
+  console.log('File contents: ')
+  console.log('')
   console.log(data.toString())
+  console.log('')
 }
 
-const getPath = (filename) => {
-  return `${DRAFTS_PATH}/${filename}`
+const getPath = (filename, type) => {
+  return `${DRAFTS_PATH}/${filename}.${type}`
 }
 
 
@@ -64,4 +72,5 @@ module.exports = {
   printFile: printFile,
   getPath: getPath,
   seedDraftsFile: seedDraftsFile,
+  getFileTypeFromBuffer: getFileTypeFromBuffer
 }

@@ -3,7 +3,8 @@ const path = require("path")
 const chokidar = require('chokidar');
 const ipfs = require('../src/util/ipfs')
 
-const {DEFAULT_PATH, DRAFTS_PATH} = require('../src/util/pathHelpers')
+const {DEFAULT_PATH, DRAFTS_PATH} = require('../src/util/pathHelpers');
+const { openSeedingFolder } = require('../src/util/shellHelpers');
 
 exports.command = "seed";
 exports.describe = "Starts seeding the polka directory";
@@ -42,9 +43,15 @@ exports.handler = async function(argv) {
     fs.mkdirSync(DRAFTS_PATH);
   }
 
-  listenForChanges()
+  // listenForChanges()
+  openSeedingFolder()
 
-  const hash = await ipfs.addAll(DEFAULT_PATH)
+  console.log('Share the hash on the left with anyone')
+  console.log('If they run `polka read <hash>` they should download that file from the network')
+  console.log('NOTE: Someone needs to be running `polka seed` with that file for it to be retrieveable')
+
+  console.log('')
+  await ipfs.addAll(DEFAULT_PATH)
 
   // process.exit(0);
 };

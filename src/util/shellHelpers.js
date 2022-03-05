@@ -1,13 +1,18 @@
 const { exec } = require("child_process");
-const { getPath } = require("./pathHelpers");
+const { getPath, DEFAULT_PATH } = require("./pathHelpers");
 
 
-const openFile = (file) => {
-  const path = getPath(file)
+const openFile = (file, type) => {
+  const path = getPath(file, type)
   console.log("path", path)
   exec(`open -a Preview ${path}`)
 }
 
+const openSeedingFolder = () => {
+  exec(`open ${DEFAULT_PATH}`)
+}
+
 module.exports = {
-  openFile: openFile
+  openFile: openFile,
+  openSeedingFolder: openSeedingFolder
 }
