@@ -1,10 +1,10 @@
 {
-	"name": "polka-cli",
-	"version": "1.0.0",
+	"name": "polka-chat",
+	"version": "0.0.1",
 	"description": "",
 	"main": "./src/index.js",
 	"bin": {
-		"polka": "./src/index.js"
+		"polka": "./index.js"
 	},
 	"scripts": {
 		"start": "node index.js",

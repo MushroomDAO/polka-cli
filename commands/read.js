@@ -1,7 +1,5 @@
 const inquirer = require('inquirer');
 const ipfs = require('../src/util/ipfs');
-
-
 const { deleteDraftsFile, getFileType, printFile, seedDraftsFile } = require('../src/util/pathHelpers');
 const { openFile } = require('../src/util/shellHelpers');
 
