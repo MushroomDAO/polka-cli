@@ -12,7 +12,7 @@ const {DEFAULT_PATH, DRAFTS_PATH, getPath, getFileType, getFileTypeFromBuffer} =
 
 const { concat: uint8ArrayConcat } = require('uint8arrays/concat');
 
-const DEBUG = true
+const DEBUG = false
 
 const address1 =       {
   Swarm: ["/ip4/0.0.0.0/tcp/4014", "/ip4/127.0.0.1/tcp/4015/ws"],
@@ -44,7 +44,7 @@ const getIPFS = async () => {
   _ipfs = await IPFS.create({
     repo: 'ok' + Math.random(),
     config: {
-      Addresses: address2
+      Addresses: address1
     },
     silent: true
   });
